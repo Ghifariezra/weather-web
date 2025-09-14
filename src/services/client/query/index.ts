@@ -3,51 +3,41 @@ import { CloudyCatService } from "@/services/client/cloudycat";
 import { cacheDurationApi } from "@/utils/duration";
 
 const { STALE_DATA_DURATION, CACHE_DURATION } = cacheDurationApi();
+const service = new CloudyCatService();
 
-class UseCloudyQuery extends CloudyCatService {
-    useWeather() {
-        return useMutation({
-            mutationKey: ["weather"],
-            mutationFn: (adm4: string[]) => this.getWeather(adm4),
-            gcTime: CACHE_DURATION,
-            // retryDelay: 2 * 60 * 1000,
-        })
-    }
+export const useWeather = () =>
+    useMutation({
+        mutationKey: ["weather"],
+        mutationFn: (adm4: string[]) => service.getWeather(adm4),
+        gcTime: CACHE_DURATION,
+    });
 
-    useWeatherLoc(adm: string) {
-        return useQuery({
-            queryKey: ["weather-loc"],
-            queryFn: () => this.getWeatherLoc(adm),
-            staleTime: STALE_DATA_DURATION,
-            enabled: !!adm
-        })
-    }
+export const useWeatherLoc = (adm: string) =>
+    useQuery({
+        queryKey: ["weather-loc"],
+        queryFn: () => service.getWeatherLoc(adm),
+        staleTime: STALE_DATA_DURATION,
+        enabled: !!adm,
+    });
 
-    useDistrictCode() {
-        return useMutation({
-            mutationKey: ["district-code"],
-            mutationFn: ({ slug, lat, lon }: { slug: string; lat: number; lon: number }) =>
-                this.getDistrictCode(slug, lat, lon),
-            gcTime: CACHE_DURATION,
-            // retryDelay: 2 * 60 * 1000,
-        });
-    }
+export const useDistrictCode = () =>
+    useMutation({
+        mutationKey: ["district-code"],
+        mutationFn: ({ slug, lat, lon }: { slug: string; lat: number; lon: number }) =>
+            service.getDistrictCode(slug, lat, lon),
+        gcTime: CACHE_DURATION,
+    });
 
-    useVillage() {
-        return useQuery({
-            queryKey: ["village"],
-            queryFn: () => this.getVillageAreaCode(),
-            staleTime: STALE_DATA_DURATION
-        });
-    }
+export const useVillage = () =>
+    useQuery({
+        queryKey: ["village"],
+        queryFn: () => service.getVillageAreaCode(),
+        staleTime: STALE_DATA_DURATION,
+    });
 
-    useProvince(province_name: string) {
-        return useQuery({
-            queryKey: ["province", province_name],
-            queryFn: () => this.getProvinceAreaCode(province_name),
-            staleTime: STALE_DATA_DURATION
-        });
-    }
-}
-
-export const cloudyQuery = new UseCloudyQuery();
+export const useProvince = (province_name: string) =>
+    useQuery({
+        queryKey: ["province", province_name],
+        queryFn: () => service.getProvinceAreaCode(province_name),
+        staleTime: STALE_DATA_DURATION,
+    });

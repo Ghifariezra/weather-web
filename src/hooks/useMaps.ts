@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { cloudyQuery } from "@/services/client/query";
+import { useWeatherLoc, useWeather, useVillage, useDistrictCode } from "@/services/client/query";
 import { geoIND } from "@/utils/geo";
 import type { LatLng } from "leaflet";
 import type { Center, Coords } from "@/types/maps";
@@ -12,19 +12,20 @@ const useMaps = () => {
     const [lastReq, setLastReq] = useState<{ slug: string | null; lat: number; lon: number } | null>(null);
 
     // Mutations
-    const { mutate: wDistrictMutate, data: wDistrictData, isPending: wDistrictLoading } = cloudyQuery.useDistrictCode();
-    const { mutate: wMutate, data: wData, isPending: wLoading } = cloudyQuery.useWeather();
+    const { mutate: wDistrictMutate, data: wDistrictData, isPending: wDistrictLoading } = useDistrictCode();
+    const { mutate: wMutate, data: wData, isPending: wLoading } = useWeather();
     
     // Queries
-    const { data: v, isLoading: vLoad, isError: vError } = cloudyQuery.useVillage();
+    const { data: v, isLoading: vLoad, isError: vError } = useVillage();
     
     const villageCode = wDistrictData?.data?.village_code;
 
     const weatherQuery = villageCode
-        ? cloudyQuery.useWeatherLoc(villageCode)
+        ? useWeatherLoc(villageCode)
         : { data: null, isLoading: false, isError: false };
 
     const { data: weatherLoc, isLoading: weatherLocLoading, isError: weatherLocError } = weatherQuery;
+
 
     const { features } = geoIND;
 
