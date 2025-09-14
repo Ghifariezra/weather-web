@@ -20,11 +20,10 @@ const useMaps = () => {
     
     const villageCode = wDistrictData?.data?.village_code;
 
-    const weatherQuery = villageCode
-        ? useWeatherLoc(villageCode)
-        : { data: null, isLoading: false, isError: false };
-
-    const { data: weatherLoc, isLoading: weatherLocLoading, isError: weatherLocError } = weatherQuery;
+    const { data: weatherLoc, isLoading: weatherLocLoading, isError: weatherLocError } =
+        useWeatherLoc(villageCode ?? "", {
+            enabled: !!villageCode, // hanya jalan kalau ada villageCode
+        });
 
 
     const { features } = geoIND;

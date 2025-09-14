@@ -12,7 +12,7 @@ export const useWeather = () =>
         gcTime: CACHE_DURATION,
     });
 
-export const useWeatherLoc = (adm: string) =>
+export const useWeatherLoc = (adm: string, { enabled = false }: { enabled?: boolean }) =>
     useQuery({
         queryKey: ["weather-loc"],
         queryFn: () => service.getWeatherLoc(adm),
