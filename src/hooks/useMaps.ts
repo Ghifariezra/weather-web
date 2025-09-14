@@ -22,7 +22,7 @@ const useMaps = () => {
 
     const { data: weatherLoc, isLoading: weatherLocLoading, isError: weatherLocError } =
         useWeatherLoc(villageCode ?? "", {
-            enabled: !!villageCode, // hanya jalan kalau ada villageCode
+            enabled: !!villageCode,
         });
 
 

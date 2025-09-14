@@ -2,11 +2,11 @@ import { createInstance } from "@/utils/axios";
 
 // Special for Server
 const weatherInstance = createInstance({
-    base: process.env.WEATHER_API!,
+    base: process.env.NEXT_PUBLIC_WEATHER_API!,
 })
 
 const nominatimInstance = createInstance({
-    base: process.env.NOMINATIM_API!,
+    base: process.env.NEXT_PUBLIC_NOMINATIM_API!,
 })
 
 // Special for Client
