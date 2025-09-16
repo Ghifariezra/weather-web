@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { DivIcon, Point, LatLng } from "leaflet";
@@ -22,14 +23,21 @@ export default function LocationMarker({
 	currentLocation: ResponseWeatherLoc | null;
 }) {
 	const map = useMapEvents({
-		layeradd() {
-			map.locate();
-		},
 		locationfound(e) {
 			setPosition(e.latlng);
 			map.flyTo(e.latlng, map.getZoom());
 		},
+		locationerror() {
+			console.warn("❌ User menolak akses lokasi atau gagal detect");
+		},
 	});
+
+	useEffect(() => {
+		map.locate({
+			setView: true,
+			enableHighAccuracy: true,
+		});
+	}, [map]);
 
 	const createCustomClusterIcon = (cluster: ClusterLike) => {
 		return new DivIcon({
