@@ -8,6 +8,7 @@ const weatherInstance = createInstance({
 const nominatimInstance = createInstance({
     base: process.env.NOMINATIM_API!,
 })
+nominatimInstance.defaults.headers["User-Agent"] = "my-weather-app/1.0 (ghifariezraramadhan@gmail.com)";
 
 // Special for Client
 const clientInstance = createInstance({

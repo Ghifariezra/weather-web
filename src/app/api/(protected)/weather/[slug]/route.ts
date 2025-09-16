@@ -22,10 +22,6 @@ export async function POST(
         return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    console.log(slug);
-    console.log(lat, lon);
-    console.log(token);
-
     const province_name = slug.toUpperCase();
     const dataProvince = await getProvinceAreaCode();
 
