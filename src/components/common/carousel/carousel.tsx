@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { CarouselSkeleton } from "@/components/skeleton/carousel";
 
 type WeatherItem = {
-    utc_datetime: string;
+	utc_datetime: string;
 	local_datetime: string;
 	weather_desc: string;
 	weather_desc_en: string;
@@ -71,9 +71,9 @@ function WeatherCard({ item }: { item: WeatherItem }) {
 
 			<CardFooter>
 				<div className="flex w-full items-center justify-center">
-					<Button 
-                    variant={"outline"}
-                    className="cursor-pointer !font-semibold">
+					<Button
+						variant={"outline"}
+						className="cursor-pointer !font-semibold">
 						Ingatkan Saya
 					</Button>
 				</div>
@@ -88,16 +88,49 @@ export function CarouselCards() {
 
 	const todayWeather = useMemo(() => {
 		if (rawWeather) {
-            const current = rawWeather.filter((item) => {
-                const today = checkDay(item.local_datetime) === "Hari ini";
-                return today
-            })
+			const current = rawWeather.filter((item) => {
+				const today = checkDay(item.local_datetime) === "Hari ini";
+				return today;
+			});
 
-            return current.filter((item) => {
-                const hoursNow = new Date().getHours();
-                const time = new Date(item.local_datetime).getHours();
-                return hoursNow < time;
-            });
+			// const interpolation = current.flatMap((_, i) => {
+			// 	const next = current[i + 1];
+
+			// 	const currentTime = new Date(current[i].local_datetime).getTime();
+			// 	const nextTime = new Date(next?.local_datetime).getTime();
+
+			// 	const diffHours = (nextTime - currentTime) / (1000 * 60 * 60);
+
+			// 	let result = [current[i]];
+
+			// 	for (let j = 1; j < diffHours; j++) {
+			// 		if (next) {
+			// 			const interpolatedTime = new Date(currentTime + j * 3600 * 1000).toLocaleDateString("sv-SE", {
+			// 				hour12: false,
+			// 				year: "numeric",
+			// 				month: "2-digit",
+			// 				day: "2-digit",
+			// 				hour: "2-digit",
+			// 				minute: "2-digit",
+			// 				second: "2-digit",
+			// 			});
+
+			// 			const interpolatedItem = {
+			// 				...current[i],
+			// 				local_datetime: interpolatedTime,
+			// 			};
+			// 			result.push(interpolatedItem);
+			// 		}
+			// 	}
+
+			// 	return result;
+			// });
+			
+			return current.filter((item) => {
+				const hoursNow = new Date().getHours();
+				const time = new Date(item.local_datetime).getHours();
+				return hoursNow < time;
+			});
 		}
 	}, [rawWeather]);
 
@@ -113,23 +146,41 @@ export function CarouselCards() {
 				totalTimeToday >= 3 ? "w-full" : "w-full sm:w-sm"
 			} h-full`}>
 			<CarouselContent className="-ml-1 w-full h-full">
-				{todayWeather.map((item, index) => (
-					<CarouselItem
-						key={index}
-						className={`pl-1 select-none ${
-							totalTimeToday === 1 ? "" : "md:basis-1/3"
-						} h-full`}>
-						<div className="p-1 cursor-grab h-full">
-							<WeatherCard item={item} />
-						</div>
-					</CarouselItem>
-				))}
+				{todayWeather.length > 0 ? (
+					todayWeather.map((item, index) => (
+						<CarouselItem
+							key={index}
+							className={`pl-1 select-none ${
+								totalTimeToday === 1 ? "" : "md:basis-1/3"
+							} h-full`}>
+							<div className="p-1 cursor-grab h-full">
+								<WeatherCard item={item} />
+							</div>
+						</CarouselItem>
+					))
+				) : (
+					<div className="flex flex-col items-center justify-center h-full gap-2 text-center p-4">
+						<h1 className="text-lg font-semibold">
+							Cuaca hari ini sudah selesai
+						</h1>
+						<p className="text-sm text-muted-foreground">
+							Tunggu update cuaca besok yaa
+						</p>
+					</div>
+				)}
 			</CarouselContent>
 
 			{totalTimeToday > 3 && (
 				<>
-					<CarouselPrevious className="cursor-pointer absolute left-0" />
-					<CarouselNext className="cursor-pointer absolute right-0" />
+					<CarouselPrevious className="cursor-pointer absolute left-0 hidden sm:flex" />
+					<CarouselNext className="cursor-pointer absolute right-0 hidden sm:flex" />
+				</>
+			)}
+
+			{totalTimeToday > 0 && (
+				<>
+					<CarouselPrevious className="cursor-pointer absolute left-0 flex sm:hidden" />
+					<CarouselNext className="cursor-pointer absolute right-0 flex sm:hidden" />
 				</>
 			)}
 		</Carousel>

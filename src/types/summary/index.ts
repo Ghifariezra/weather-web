@@ -10,4 +10,7 @@ export interface Summary {
     wind_avg: string;
     wind_max: number;
     wind_min: number;
+    visibility_avg: string;
+    visibility_max: number;
+    visibility_min: number;
 }

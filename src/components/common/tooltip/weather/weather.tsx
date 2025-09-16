@@ -25,13 +25,18 @@ function WeatherTooltip() {
 	}, [rawWeather]);
 
 	const currentWeather = useMemo(() => {
-		if (rawWeather) {
-			return currentData(rawWeather).find((item) => {
-				const hoursNow = new Date().getHours();
-				const time = new Date(item.local_datetime).getHours();
-				return hoursNow <= time;
-			});
-		}
+		if (!rawWeather) return undefined;
+
+		const dataTodayOrTomorrow = currentData(rawWeather);
+		const hoursNow = new Date().getHours();
+
+		// cari data >= sekarang
+		const upcoming = dataTodayOrTomorrow.find(
+			(item) => new Date(item.local_datetime).getHours() >= hoursNow
+		);
+
+		// kalau tidak ada, ambil yang terakhir
+		return upcoming ?? dataTodayOrTomorrow.at(-1);
 	}, [rawWeather]);
 
 	const nextWeather = useMemo(() => {
@@ -170,7 +175,11 @@ function WeatherTooltip() {
 					<InfoItem
 						icon="https://cdn2.iconfinder.com/data/icons/user-interface-essentials-11/256/32_Eye.png"
 						alt="visibility"
-						value={currentWeather.vs_text}
+						value={`${(currentWeather.vs / 1000).toFixed(0)} ${
+							currentWeather.vs_text.split(" ")[0]
+						} ${currentWeather.vs_text.split(" ")[1]}
+						`}
+						unit="km"
 						label="Jarak Pandang"
 					/>
 				</div>
@@ -189,7 +198,7 @@ function WeatherTooltip() {
 					<ChartAreaDefault data={getDailySummary} type={chartType} />
 				) : (
 					getDailySummary && (
-						<div className="flex flex-wrap lg:flex-nowrap gap-4 w-full">
+						<div className="grid sm:grid-cols-2 gap-4 w-full">
 							<InfoItem
 								icon="https://cdn1.iconfinder.com/data/icons/earthy-earth-3d-characters-set/256/19._Earth_Temperature.png"
 								alt="suhu"
@@ -210,6 +219,13 @@ function WeatherTooltip() {
 								value={getDailySummary.wind_avg}
 								unit="km/jam"
 								label={`Rata-rata (${getDailySummary.wind_min}km/jam - ${getDailySummary.wind_max}km/jam)`}
+							/>
+							<InfoItem
+								icon="https://cdn2.iconfinder.com/data/icons/user-interface-essentials-11/256/32_Eye.png"
+								alt="visibility"
+								value={getDailySummary.visibility_avg}
+								unit="km"
+								label={`Rata-rata (${getDailySummary.visibility_min}km - ${getDailySummary.visibility_max}km)`}
 							/>
 						</div>
 					)

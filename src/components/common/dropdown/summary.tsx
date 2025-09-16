@@ -34,6 +34,11 @@ export function ShowChartSummary({
 					<SelectItem className="cursor-pointer" value="angin">
 						Kecepatan Angin
 					</SelectItem>
+					<SelectItem
+						className="cursor-pointer"
+						value="jarak pandang">
+						Jarak Pandang
+					</SelectItem>
 				</SelectContent>
 			</Select>
 		</div>

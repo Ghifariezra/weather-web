@@ -56,6 +56,13 @@ export function ChartAreaDefault({
 				avg: data.wind_avg,
 			};
 			break;
+		case "jarak pandang":
+			checkData = {
+				min: data.visibility_min,
+				max: data.visibility_max,
+				avg: data.visibility_avg,
+			};
+			break;
 	}
 
 	// Siapkan data chart

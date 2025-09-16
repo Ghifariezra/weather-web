@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { getWeather } from "@/services/server/bmkg";
 import { verifyCsrfToken } from "@/utils/csrf";
 import {
-    getOrSetCacheWeather,
+    getOrSetCacheWeather
 } from "@/utils/redis";
 
 export async function POST(
@@ -16,14 +16,12 @@ export async function POST(
     }
 
     const { adm4 } = await req.json();
+    
+    const promiseAdm4 = adm4.flatMap((item: string) => {
+        return getOrSetCacheWeather(`weather:villages:${item}`, () => getWeather(item));
+    });
 
-    for (const item of adm4) {
-        await getOrSetCacheWeather(`weather:villages:${item}`, () => getWeather(item));
-    }
-
-    const data = await Promise.all(
-        adm4.map((item: string) => getOrSetCacheWeather(`weather:villages:${item}`))
-    );
+    const data = await Promise.all(promiseAdm4);
     
     return Response.json({ 
         message: "Data fetched successfully",
