@@ -21,8 +21,8 @@ export function InfoItem({ icon, alt, value, unit, label, className }: InfoItemP
 								<Image
 									src={icon}
 									alt={alt}
-									width={100}
-									height={100}
+									width={500}
+									height={500}
 									className={`object-cover w-full h-full scale-50`}
 								/>
 							</div>

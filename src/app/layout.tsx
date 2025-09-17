@@ -21,7 +21,9 @@ export default function RootLayout({
 						attribute="class"
 						defaultTheme="system"
 						enableSystem>
-						<ProviderHome>{children}</ProviderHome>
+						<ProviderHome>
+							{children}
+							</ProviderHome>
 					</ThemeProvider>
 				</QueryProviders>
 			</body>

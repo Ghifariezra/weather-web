@@ -69,7 +69,7 @@ function WeatherCard({ item }: { item: WeatherItem }) {
 				</div>
 			</CardContent>
 
-			<CardFooter>
+			{/* <CardFooter>
 				<div className="flex w-full items-center justify-center">
 					<Button
 						variant={"outline"}
@@ -77,7 +77,7 @@ function WeatherCard({ item }: { item: WeatherItem }) {
 						Ingatkan Saya
 					</Button>
 				</div>
-			</CardFooter>
+			</CardFooter> */}
 		</Card>
 	);
 }
@@ -151,7 +151,7 @@ export function CarouselCards() {
 						<CarouselItem
 							key={index}
 							className={`pl-1 select-none ${
-								totalTimeToday === 1 ? "" : "md:basis-1/3"
+								totalTimeToday > 0 && totalTimeToday < 3 ? "md:basis-1/2" :  "md:basis-1/3"
 							} h-full`}>
 							<div className="p-1 cursor-grab h-full">
 								<WeatherCard item={item} />

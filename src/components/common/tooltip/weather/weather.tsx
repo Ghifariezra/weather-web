@@ -51,9 +51,10 @@ function WeatherTooltip() {
 				rawWeather.find((item) => {
 					const day = checkDay(item.local_datetime);
 					const time = new Date(item.local_datetime).getHours();
+
 					return (
-						(day === label && time > hoursNow) ||
-						(day === "Lusa" && time < hoursNow)
+						(day === label && time >= hoursNow) ||
+						(day === 'Lusa' && time < hoursNow && label === 'Lusa')
 					);
 				})
 			)
@@ -76,7 +77,6 @@ function WeatherTooltip() {
 				<div className="flex flex-wrap lg:flex-nowrap gap-2 w-full">
 					{nextWeather.flatMap((item, index) => {
 						if (!item) return [];
-
 						return (
 							<div
 								key={index}
@@ -138,8 +138,8 @@ function WeatherTooltip() {
 									currentWeather.weather_desc_en
 								)}
 								alt="weather-icon"
-								width={100}
-								height={100}
+								width={500}
+								height={500}
 								priority
 								className="object-cover w-full h-full"
 							/>
