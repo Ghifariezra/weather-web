@@ -4,7 +4,6 @@ import { memo, useMemo } from "react";
 import Image from "next/image";
 import WeatherSkeleton from "@/components/skeleton/weather";
 import { useProviderHome } from "@/hooks/providers/useHomeProviders";
-import { useSummary } from "@/hooks/useSummary";
 import { getImageUrl } from "@/utils/icon";
 import { dateFormat, checkDay } from "@/utils/date";
 import { Calendar, Clock8 } from "lucide-react";

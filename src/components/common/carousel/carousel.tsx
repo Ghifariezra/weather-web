@@ -9,7 +9,6 @@ import { getImageUrl } from "@/utils/icon";
 import {
 	Card,
 	CardContent,
-	CardFooter,
 	CardHeader,
 } from "@/components/ui/card";
 import {
@@ -19,8 +18,8 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
 import { CarouselSkeleton } from "@/components/skeleton/carousel";
+import { useWindowDimensions } from "@/hooks/useWindowDimensions";
 
 type WeatherItem = {
 	utc_datetime: string;
@@ -37,7 +36,6 @@ function WeatherCard({ item }: { item: WeatherItem }) {
 		<Card>
 			<CardHeader>
 				<div className="flex flex-col items-center w-full gap-1">
-					{/* <span className="text-base font-semibold">{tanggal}</span> */}
 					<span className="text-base font-semibold">{jam}</span>
 				</div>
 			</CardHeader>
@@ -68,21 +66,12 @@ function WeatherCard({ item }: { item: WeatherItem }) {
 					</q>
 				</div>
 			</CardContent>
-
-			{/* <CardFooter>
-				<div className="flex w-full items-center justify-center">
-					<Button
-						variant={"outline"}
-						className="cursor-pointer !font-semibold">
-						Ingatkan Saya
-					</Button>
-				</div>
-			</CardFooter> */}
 		</Card>
 	);
 }
 
 export function CarouselCards() {
+	const { width } = useWindowDimensions();
 	const { weatherLoc, weatherLocLoading } = useProviderHome();
 	const rawWeather = weatherLoc?.data?.cuaca?.flat();
 
@@ -92,40 +81,6 @@ export function CarouselCards() {
 				const today = checkDay(item.local_datetime) === "Hari ini";
 				return today;
 			});
-
-			// const interpolation = current.flatMap((_, i) => {
-			// 	const next = current[i + 1];
-
-			// 	const currentTime = new Date(current[i].local_datetime).getTime();
-			// 	const nextTime = new Date(next?.local_datetime).getTime();
-
-			// 	const diffHours = (nextTime - currentTime) / (1000 * 60 * 60);
-
-			// 	let result = [current[i]];
-
-			// 	for (let j = 1; j < diffHours; j++) {
-			// 		if (next) {
-			// 			const interpolatedTime = new Date(currentTime + j * 3600 * 1000).toLocaleDateString("sv-SE", {
-			// 				hour12: false,
-			// 				year: "numeric",
-			// 				month: "2-digit",
-			// 				day: "2-digit",
-			// 				hour: "2-digit",
-			// 				minute: "2-digit",
-			// 				second: "2-digit",
-			// 			});
-
-			// 			const interpolatedItem = {
-			// 				...current[i],
-			// 				local_datetime: interpolatedTime,
-			// 			};
-			// 			result.push(interpolatedItem);
-			// 		}
-			// 	}
-
-			// 	return result;
-			// });
-			
 			return current.filter((item) => {
 				const hoursNow = new Date().getHours();
 				const time = new Date(item.local_datetime).getHours();
@@ -134,8 +89,8 @@ export function CarouselCards() {
 		}
 	}, [rawWeather]);
 
-	if (weatherLocLoading) return <CarouselSkeleton />;
-	if (!rawWeather || !todayWeather) return <CarouselSkeleton />;
+	if (weatherLocLoading) return <CarouselSkeleton width={width} />;
+	if (!rawWeather || !todayWeather) return <CarouselSkeleton width={width} />;
 
 	const totalTimeToday = todayWeather.length;
 	if (totalTimeToday === 0) return null;
