@@ -3,18 +3,15 @@
 import { memo, useMemo } from "react";
 import Image from "next/image";
 import WeatherSkeleton from "@/components/skeleton/weather";
-import { ShowChartSummary } from "@/components/common/dropdown/summary";
 import { useProviderHome } from "@/hooks/providers/useHomeProviders";
 import { useSummary } from "@/hooks/useSummary";
 import { getImageUrl } from "@/utils/icon";
 import { dateFormat, checkDay } from "@/utils/date";
 import { Calendar, Clock8 } from "lucide-react";
 import { InfoItem } from "./info-item";
-import { ChartAreaDefault } from "@/components/common/charts/area";
 import { currentData, getSummary } from "@/utils/summary";
 
 function WeatherTooltip() {
-	const { chartType, setChartType } = useSummary();
 	const { weatherLocLoading, rawWeather } = useProviderHome();
 
 	const getDailySummary = useMemo(() => {

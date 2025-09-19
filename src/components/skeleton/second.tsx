@@ -3,27 +3,37 @@
 import Section from "@/components/templates/section";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CarouselSkeleton } from "@/components/skeleton/carousel";
+import { useWindowDimensions } from "@/hooks/useWindowDimensions";
 
 export function SecondSkeleton() {
+	const { width } = useWindowDimensions();
+
 	return (
 		<Section>
 			<div className="flex flex-col w-full h-full gap-4 rounded-2xl animate-pulse">
 				{/* Bagian Carousel */}
 				<div className="flex flex-col gap-4">
 					<Skeleton className="h-6 w-32 sm:w-40" />
-					<CarouselSkeleton />
+					<CarouselSkeleton width={width} />
 				</div>
 
 				{/* Bagian Chart */}
 				<div className="flex flex-col gap-4">
 					<Skeleton className="h-6 w-32 sm:w-40" />
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-						{Array.from({ length: 4 }).map((_, i) => (
-							<Skeleton
-								key={i}
-								className="w-full h-40 sm:h-64 rounded-xl"
-							/>
-						))}
+						{width > 640
+							? Array.from({ length: 4 }).map((_, i) => (
+									<Skeleton
+										key={i}
+										className="w-full h-40 sm:h-64 rounded-xl"
+									/>
+							  ))
+							: Array.from({ length: 2 }).map((_, i) => (
+									<Skeleton
+										key={i}
+										className="w-full h-40 sm:h-64 rounded-xl"
+									/>
+							  ))}
 					</div>
 				</div>
 			</div>
