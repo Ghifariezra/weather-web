@@ -12,7 +12,7 @@ export function Hero() {
 
 	return (
 		<Section>
-			<div className="flex flex-col-reverse sm:flex-row gap-4 w-full h-full p-4 rounded-2xl glassess border-glassess">
+			<div className="flex flex-col-reverse sm:flex-row gap-4 w-full h-full rounded-2xl">
 				<div className="flex flex-col gap-8 w-full h-full">
 					<TooltipAddress />
 					<WeatherTooltip />

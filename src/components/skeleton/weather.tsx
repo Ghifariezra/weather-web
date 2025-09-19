@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 function InfoItemSkeleton() {
 	return (
-		<div className="flex items-center gap-2 w-full">
+		<div className="flex items-center gap-3 w-full p-3 rounded-xl">
 			<Skeleton className="w-10 h-10 rounded-full" />
 			<div className="flex flex-col w-full gap-2">
 				<Skeleton className="h-4 w-24" />
@@ -17,7 +17,7 @@ function InfoItemSkeleton() {
 
 function WeatherSkeleton() {
 	return (
-		<div className="animate-pulse space-y-8 h-full w-full">
+		<div className="space-y-10 h-full w-full animate-pulse">
 			{/* Seputar Langit */}
 			<div className="flex flex-col gap-4 w-full">
 				<Skeleton className="h-6 w-44" /> {/* heading */}
@@ -25,7 +25,7 @@ function WeatherSkeleton() {
 					{Array.from({ length: 3 }).map((_, i) => (
 						<div
 							key={i}
-							className="flex flex-col-reverse sm:flex-row lg:flex-col gap-4 w-full p-4 border rounded-lg">
+							className="flex flex-col-reverse sm:flex-row lg:flex-col gap-4 w-full p-4 border rounded-2xl">
 							<div className="flex flex-col gap-4 w-full">
 								<Skeleton className="h-5 w-28 mx-auto" />{" "}
 								{/* nama hari */}
@@ -53,14 +53,17 @@ function WeatherSkeleton() {
 
 			{/* Cuaca saat ini */}
 			<div className="flex flex-col lg:flex-row gap-6 w-full items-center justify-center">
-				<Skeleton className="aspect-square w-32 h-32 rounded-xl" />{" "}
+				<Skeleton className="aspect-square w-24 sm:w-32 h-24 sm:h-32 rounded-2xl" />{" "}
 				{/* icon */}
 				<div className="flex flex-col gap-4 items-center">
 					<div className="flex items-baseline gap-2">
-						<Skeleton className="h-20 w-28" /> {/* suhu */}
-						<Skeleton className="h-10 w-10 rounded" /> {/* °C */}
+						<Skeleton className="h-16 sm:h-20 w-20 sm:w-28" />{" "}
+						{/* suhu */}
+						<Skeleton className="h-8 sm:h-10 w-8 sm:w-10 rounded" />{" "}
+						{/* °C */}
 					</div>
-					<Skeleton className="h-6 w-40" /> {/* deskripsi cuaca */}
+					<Skeleton className="h-5 sm:h-6 w-32 sm:w-40" />{" "}
+					{/* deskripsi cuaca */}
 				</div>
 			</div>
 

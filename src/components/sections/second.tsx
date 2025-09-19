@@ -31,7 +31,7 @@ export function Second() {
 
 	return (
 		<Section>
-			<div className="flex flex-col w-full h-full gap-4 p-4 sm:p-8">
+			<div className="flex flex-col w-full h-full gap-4">
 				{/* Cuaca Per Jam */}
 				<div className="flex flex-col gap-4">
 					<h1 className="text-base sm:text-lg md:text-xl font-bold">
