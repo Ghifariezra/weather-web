@@ -9,7 +9,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function CarouselSkeleton({ width }: { width: number }) {
-	const itemsToShow = width > 640 ? 4 : 2;
+	const itemsToShow = width > 640 ? 4 : 3;
 
 	return (
 		<div className="w-full relative animate-pulse">
