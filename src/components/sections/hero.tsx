@@ -14,12 +14,9 @@ export function Hero() {
 		<Section>
 			<div className="flex flex-col-reverse sm:flex-row gap-4 w-full h-full p-4 rounded-2xl glassess border-glassess">
 				<div className="flex flex-col gap-8 w-full h-full">
-					{/* Address */}
 					<TooltipAddress />
-					{/* Weather */}
 					<WeatherTooltip />
 				</div>
-				{/* Only render Maps when not loading and no error */}
 				<div className="relative w-full min-h-[300px] sm:min-h-full">
 					{!vLoad && !vError ? (
 						<Maps />

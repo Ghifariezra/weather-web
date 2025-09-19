@@ -1,6 +1,8 @@
 import { QueryProviders } from "@/components/providers/queryClient";
 import { ProviderHome } from "@/components/providers/homeProviders";
 import { ThemeProvider } from "@/components/providers/themeProvider";
+import { Header } from "@/components/templates/header";
+import { Footer } from "@/components/templates/footer";
 import { metaRoot } from "@/utils/metadata";
 import { geistMono, geistSans } from "@/utils/font";
 import "./globals.css";
@@ -22,8 +24,10 @@ export default function RootLayout({
 						defaultTheme="system"
 						enableSystem>
 						<ProviderHome>
+							<Header />
 							{children}
-							</ProviderHome>
+							<Footer />
+						</ProviderHome>
 					</ThemeProvider>
 				</QueryProviders>
 			</body>

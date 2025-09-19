@@ -54,7 +54,7 @@ function WeatherTooltip() {
 
 					return (
 						(day === label && time >= hoursNow) ||
-						(day === 'Lusa' && time < hoursNow && label === 'Lusa')
+						(day === "Lusa" && time < hoursNow && label === "Lusa")
 					);
 				})
 			)
@@ -188,47 +188,40 @@ function WeatherTooltip() {
 			<hr className="sm:hidden" />
 
 			<div className="flex flex-col gap-4 w-full h-full">
-				<div className="flex flex-wrap lg:flex-nowrap justify-between w-full gap-2">
-					<h1 className="font-semibold text-2xl w-full">
-						Ringkasan Hari Ini
-					</h1>
-					<ShowChartSummary setChartType={setChartType} />
-				</div>
-				{chartType !== "default" ? (
-					<ChartAreaDefault data={getDailySummary} type={chartType} />
-				) : (
-					getDailySummary && (
-						<div className="grid sm:grid-cols-2 gap-4 w-full">
-							<InfoItem
-								icon="https://cdn1.iconfinder.com/data/icons/earthy-earth-3d-characters-set/256/19._Earth_Temperature.png"
-								alt="suhu"
-								value={getDailySummary.suhu_avg}
-								unit="°C"
-								label={`Rata-rata (${getDailySummary.suhu_min}° - ${getDailySummary.suhu_max}°)`}
-							/>
-							<InfoItem
-								icon="https://cdn1.iconfinder.com/data/icons/weather-vol-1-10/256/humidity-weather-water-drop-rain-climate-percentage-3d.png"
-								alt="humidity"
-								value={getDailySummary.humidity_avg}
-								unit="%"
-								label={`Rata-rata (${getDailySummary.humidity_min}% - ${getDailySummary.humidity_max}% )`}
-							/>
-							<InfoItem
-								icon="https://cdn3.iconfinder.com/data/icons/weather-3d/256/Wind.png"
-								alt="wind"
-								value={getDailySummary.wind_avg}
-								unit="km/jam"
-								label={`Rata-rata (${getDailySummary.wind_min}km/jam - ${getDailySummary.wind_max}km/jam)`}
-							/>
-							<InfoItem
-								icon="https://cdn2.iconfinder.com/data/icons/user-interface-essentials-11/256/32_Eye.png"
-								alt="visibility"
-								value={getDailySummary.visibility_avg}
-								unit="km"
-								label={`Rata-rata (${getDailySummary.visibility_min}km - ${getDailySummary.visibility_max}km)`}
-							/>
-						</div>
-					)
+				<h1 className="font-semibold text-2xl w-full">
+					Ringkasan Hari Ini
+				</h1>
+				{getDailySummary && (
+					<div className="grid sm:grid-cols-2 gap-4 w-full">
+						<InfoItem
+							icon="https://cdn1.iconfinder.com/data/icons/earthy-earth-3d-characters-set/256/19._Earth_Temperature.png"
+							alt="suhu"
+							value={getDailySummary.suhu_avg}
+							unit="°C"
+							label={`Rata-rata (${getDailySummary.suhu_min}° - ${getDailySummary.suhu_max}°)`}
+						/>
+						<InfoItem
+							icon="https://cdn1.iconfinder.com/data/icons/weather-vol-1-10/256/humidity-weather-water-drop-rain-climate-percentage-3d.png"
+							alt="humidity"
+							value={getDailySummary.humidity_avg}
+							unit="%"
+							label={`Rata-rata (${getDailySummary.humidity_min}% - ${getDailySummary.humidity_max}% )`}
+						/>
+						<InfoItem
+							icon="https://cdn3.iconfinder.com/data/icons/weather-3d/256/Wind.png"
+							alt="wind"
+							value={getDailySummary.wind_avg}
+							unit="km/jam"
+							label={`Rata-rata (${getDailySummary.wind_min}km/jam - ${getDailySummary.wind_max}km/jam)`}
+						/>
+						<InfoItem
+							icon="https://cdn2.iconfinder.com/data/icons/user-interface-essentials-11/256/32_Eye.png"
+							alt="visibility"
+							value={getDailySummary.visibility_avg}
+							unit="km"
+							label={`Rata-rata (${getDailySummary.visibility_min}km - ${getDailySummary.visibility_max}km)`}
+						/>
+					</div>
 				)}
 			</div>
 		</>

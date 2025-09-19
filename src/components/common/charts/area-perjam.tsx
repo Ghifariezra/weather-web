@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
@@ -19,69 +20,75 @@ import {
 } from "@/components/ui/chart";
 import { CuacaDetail } from "@/types/weather";
 
-export function ChartAreaGradient({ data }: { data: CuacaDetail[] }) {
+const chartConfig = {
+	suhu: {
+		label: "Suhu (°C)",
+		color: "var(--chart-1)",
+	},
+	kelembapan: {
+		label: "Kelembapan (%)",
+		color: "var(--chart-2)",
+	},
+	angin: {
+		label: "Kecepatan Angin (m/s)",
+		color: "var(--chart-3)",
+	},
+	jarak_pandang: {
+		label: "Jarak Pandang (km)",
+		color: "var(--chart-4)",
+	},
+} satisfies ChartConfig;
+
+export type WeatherStatus = keyof typeof chartConfig;
+
+export function ChartAreaGradient({
+	data,
+	status,
+}: {
+	data: CuacaDetail[];
+	status: WeatherStatus;
+}) {
 	// transformasi data untuk chart
-	const chartData = data.map((item) => {
-		const hours =
-			new Date(item.local_datetime)
-				.getHours()
-				.toString()
-				.padStart(2, "0") + ":00";
+	const chartData = useMemo(() => {
+		return data.map((item) => {
+			const hours =
+				new Date(item.local_datetime)
+					.getHours()
+					.toString()
+					.padStart(2, "0") + ":00";
 
-		return {
-			hours,
-			suhu: item.t,
-			kelembapan: item.hu,
-			angin: item.ws / 3.6,
-			jarak_pandang: item.vs / 1000,
-		};
-	});
+			switch (status) {
+				case "suhu":
+					return { hours, suhu: item.t };
+				case "kelembapan":
+					return { hours, kelembapan: item.hu };
+				case "angin":
+					return { hours, angin: item.ws / 3.6 };
+				case "jarak_pandang":
+					return { hours, jarak_pandang: item.vs / 1000 };
+			}
+		});
+	}, [data, status]);
 
-	const chartConfig = {
-		suhu: {
-			label: "Suhu (°C)",
-			color: "var(--chart-1)",
-		},
-		kelembapan: {
-			label: "Kelembapan (%)",
-			color: "var(--chart-2)",
-		},
-		angin: {
-            label: "Kecepatan Angin (m/s)",
-			color: "var(--chart-3)",
-		},
-        jarak_pandang: {
-            label: "Jarak Pandang (km)",
-            color: "var(--chart-4)",
-        },
-	} satisfies ChartConfig;
-
-	// ambil rentang waktu data untuk deskripsi
-	const start = data[0]?.local_datetime
-		? new Date(data[0].local_datetime).toLocaleDateString("id-ID", {
-				day: "numeric",
-				month: "long",
-				year: "numeric",
-		  })
-		: "";
-	const end = data[data.length - 1]?.local_datetime
-		? new Date(data[data.length - 1].local_datetime).toLocaleDateString(
-				"id-ID",
-				{ day: "numeric", month: "long", year: "numeric" }
-		  )
-		: "";
+	const viewDesc =
+		status.split("_").length > 1
+			? status
+					.split("_")
+					.map((word) => word[0].toUpperCase() + word.slice(1))
+					.join(" ")
+			: status[0].toUpperCase() + status.slice(1);
 
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Cuaca Harian</CardTitle>
+				<CardTitle>{chartConfig[status].label}</CardTitle>
 				<CardDescription>
-					Periode {start} - {end}
+					Statistik {viewDesc} per jam
 				</CardDescription>
 			</CardHeader>
 
 			<CardContent>
-				<ChartContainer config={chartConfig}>
+				<ChartContainer config={{ [status]: chartConfig[status] }}>
 					<AreaChart
 						accessibilityLayer
 						data={chartData}
@@ -92,7 +99,10 @@ export function ChartAreaGradient({ data }: { data: CuacaDetail[] }) {
 							tickLine={false}
 							axisLine={false}
 							tickMargin={8}
+							allowDecimals={false}
+							interval="preserveStartEnd"
 						/>
+
 						<ChartTooltip
 							cursor={false}
 							content={<ChartTooltipContent />}
@@ -148,8 +158,7 @@ export function ChartAreaGradient({ data }: { data: CuacaDetail[] }) {
 							<TrendingUp className="h-4 w-4" />
 						</div>
 						<div className="text-muted-foreground flex items-center gap-2 leading-none">
-							Menampilkan suhu, kelembapan, angin, dan jarak
-							pandang
+							Menampilkan {viewDesc} per jam
 						</div>
 					</div>
 				</div>
