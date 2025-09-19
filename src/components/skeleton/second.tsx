@@ -8,6 +8,8 @@ import { useWindowDimensions } from "@/hooks/useWindowDimensions";
 export function SecondSkeleton() {
 	const { width } = useWindowDimensions();
 
+	const itemsToShow = width > 640 ? 4 : 2;
+
 	return (
 		<Section>
 			<div className="flex flex-col w-full h-full gap-4 rounded-2xl animate-pulse">
@@ -21,19 +23,12 @@ export function SecondSkeleton() {
 				<div className="flex flex-col gap-4">
 					<Skeleton className="h-6 w-32 sm:w-40" />
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-						{width > 640
-							? Array.from({ length: 4 }).map((_, i) => (
-									<Skeleton
-										key={i}
-										className="w-full h-40 sm:h-64 rounded-xl"
-									/>
-							  ))
-							: Array.from({ length: 2 }).map((_, i) => (
-									<Skeleton
-										key={i}
-										className="w-full h-40 sm:h-64 rounded-xl"
-									/>
-							  ))}
+						{Array.from({ length: itemsToShow }).map((_, i) => (
+							<Skeleton
+								key={i}
+								className="w-full h-40 sm:h-64 rounded-xl"
+							/>
+						))}
 					</div>
 				</div>
 			</div>
