@@ -29,7 +29,7 @@ function TooltipAddress() {
 							</span>
 						</div>
 					</TooltipTrigger>
-					<TooltipContent side="top">
+					<TooltipContent side="top" className="z-1001">
 						<p>{wDistrictData.data.full_address}</p>
 					</TooltipContent>
 				</Tooltip>

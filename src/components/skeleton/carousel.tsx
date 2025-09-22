@@ -17,7 +17,7 @@ export function CarouselSkeleton({ width }: { width: number }) {
 				{Array.from({ length: itemsToShow }).map((_, i) => (
 					<Card
 						key={i}
-						className="w-28 sm:w-40 md:w-48 flex flex-col justify-between">
+						className="w-full sm:w-40 md:w-48 flex flex-col justify-between">
 						{/* Header */}
 						<CardHeader className="flex items-center justify-center">
 							<Skeleton className="h-4 w-16" /> {/* jam */}
