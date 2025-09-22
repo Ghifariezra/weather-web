@@ -11,7 +11,7 @@ import { InfoItem } from "./info-item";
 import { currentData, getSummary } from "@/utils/summary";
 
 function WeatherTooltip() {
-	const { weatherLocLoading, rawWeather } = useProviderHome();
+	const { rawWeather } = useProviderHome();
 
 	const getDailySummary = useMemo(() => {
 		if (rawWeather) {
@@ -58,11 +58,7 @@ function WeatherTooltip() {
 		return result;
 	}, [rawWeather]);
 
-	if (weatherLocLoading) {
-		return <WeatherSkeleton />;
-	}
-
-	if (!currentWeather || !nextWeather || !rawWeather || !getDailySummary) {
+	if (!currentWeather || !nextWeather || nextWeather.length === 0 ) {
 		return <WeatherSkeleton />;
 	}
 

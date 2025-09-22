@@ -1,6 +1,6 @@
 import { areaCodeService } from "@/services/server/village";
 import {
-    getOrSetCacheVillage,
+    getOrSetCacheVillage
 } from "@/utils/redis";
 
 export async function GET() {

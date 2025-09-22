@@ -12,9 +12,8 @@ import {
 import AddressSkeleton from "@/components/skeleton/address";
 
 function TooltipAddress() {
-	const { wDistrictData, wDistrictLoading } = useProviderHome();
+	const { wDistrictData } = useProviderHome();
 
-	if (wDistrictLoading) return <AddressSkeleton />;
 	if (!wDistrictData) return <AddressSkeleton />;
 
 	return (
