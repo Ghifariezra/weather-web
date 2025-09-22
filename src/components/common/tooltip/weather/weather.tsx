@@ -62,7 +62,7 @@ function WeatherTooltip() {
 		return <WeatherSkeleton />;
 	}
 
-	if (!currentWeather || !nextWeather || nextWeather.length === 0 || !getDailySummary) {
+	if (!rawWeather || !currentWeather || !nextWeather || !getDailySummary) {
 		return <WeatherSkeleton />;
 	}
 
