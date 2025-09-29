@@ -63,39 +63,9 @@ async function getOrSetCacheVillage<T>(
     return data;
 }
 
-async function getOrSetCacheByProvince(key: string, data: ByProvinceGroup) {
-    const cached = await redisClient.get(key);
-    if (cached) {
-        const buffer = Buffer.from(cached, "base64");
-        const decompressed = await gunzip(buffer);
-        return JSON.parse(decompressed.toString()) as ByProvinceGroup;
-    }
-
-    const stringified = JSON.stringify(data);
-    const compressed = await gzip(stringified);
-    const compressedBase64 = compressed.toString("base64");
-
-    await redisClient.set(key, compressedBase64, { EX: CACHE_DURATION });
-
-    console.log("🌐 Data fresh, simpan ke Redis:", key)
-
-    return data;
-}
-
-async function getCacheProvince(key: string) {
-    const cached = await redisClient.get(key);
-    if (cached) {
-        const buffer = Buffer.from(cached, "base64");
-        const decompressed = await gunzip(buffer);
-        return JSON.parse(decompressed.toString()) as ProvinceGroup['villages'][];
-    }
-}
-
 export {
     redisClient,
     CACHE_DURATION,
     getOrSetCacheWeather,
     getOrSetCacheVillage,
-    getCacheProvince,
-    getOrSetCacheByProvince,
 };

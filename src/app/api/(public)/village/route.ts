@@ -4,8 +4,9 @@ import {
 } from "@/utils/redis";
 
 export async function GET() {
-    const { getVillageAreaCode, getProvinceAreaCode } = areaCodeService;
-    const dataProvince = await getProvinceAreaCode();
+    const { getVillageAreaCode } = areaCodeService;
+
+    const dataProvince = (await getVillageAreaCode()).flatMap((p) => p.province);
     const data = await getVillageAreaCode();
 
     const newData = dataProvince.map((item) => {
@@ -25,10 +26,6 @@ export async function GET() {
         if (!p || p.villages.length === 0) return [];
 
         return [
-            getOrSetCacheVillage(
-                `villages:${p.province}:${p.subdistrict_name}:${p.villages[0].village_name}`,
-                data[index].villages
-            ),
             getOrSetCacheVillage(
                 `provinces:${data[index].province}`,
                 data[index].villages

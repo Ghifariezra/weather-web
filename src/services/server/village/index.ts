@@ -12,14 +12,6 @@ class AreaCodeService {
         }
         return data as ProvinceGroup[];
     }
-
-    async getProvinceAreaCode(): Promise<string[]> {
-        const { data, error } = await supabaseClient().from("province").select("area");
-
-        if (error) throw new Error(error.message);
-
-        return data.map((item) => item.area);
-    }
 }
 
 export const areaCodeService = new AreaCodeService();
